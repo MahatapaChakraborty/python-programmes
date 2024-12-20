@@ -1,4 +1,4 @@
-#d2x/dt2 + (w^2)*x=0 given initial condition x(t=0)=0 and dx/dt(t=0)=0
+#d2x/dt2 + (w^2)*x=0 given initial condition x(t=0)=1 and dx/dt(t=0)=0
 #dz/dt=-(w^2)*x, dx/dt=z
 #z(t0+h)=z(t0)-h*(w^2)*x(t0), x(t0+h)=x(t0)+h*z(t0) and so on
 #so the itterative formula for euler's method is
