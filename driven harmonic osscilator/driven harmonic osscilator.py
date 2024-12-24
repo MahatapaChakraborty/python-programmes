@@ -22,7 +22,7 @@ for i in range(n+1):
 #initial conditions
 x0=2#<-initial position
 z0=0#<-initial velocity
-#w0=10#<-natural frequency
+w0=10#<-natural frequency
 #wd=20#<-driven frequency
 a=4#<-damping coeff/m
 f0=50
@@ -69,15 +69,43 @@ def veleuler(time,x0,z0,a,w0,f0,wd):
 
     return(veuler)
 
-plt.xlabel('time(t)')
-plt.ylabel('position(x)')
-plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,4),color='b',label='wd=4')
+#plt.xlabel('time(t)')
+#plt.ylabel('position(x)')
+#plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,4),color='b',label='wd=4')
 #plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,10),color='g',label='wd=10')
-plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,8.24),color='r',label='wd=8.24 resonant freq')
-plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,13),color='k',label='wd=13')
-plt.title('d2x/dt2+2*a*dx/dt+(w0^2)*x=f0*cos(wd*t),x0=2,z0=0,a=4,f0=50,w0=10,h=0.001')
-plt.legend()
+#plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,8.24),color='r',label='wd=8.24 resonant freq')
+#plt.plot(time,xsoleuler(time,x0,z0,a,10,f0,13),color='k',label='wd=13')
+#plt.title('d2x/dt2+2*a*dx/dt+(w0^2)*x=f0*cos(wd*t),x0=2,z0=0,a=4,f0=50,w0=10,h=0.001')
+#plt.legend()
+#plt.grid()
+#plt.show()
+
+#resonence curve
+frequencies=np.linspace(1,15,250)
+
+def rmsamplitude(frequencies,x0,z0,a,w0,f0):
+    rmsamplitudes=[]
+    for i in range(len(frequencies)):
+        amp=xsoleuler(time,x0,z0,a,w0,f0,frequencies[i])
+        ampavg=0
+        for j in range(len(amp)):
+            ampavg+=(amp[j])**2
+
+        rmsamp=ampavg**0.5
+        
+        
+        rmsamplitudes.append(rmsamp)
+
+    return(rmsamplitudes)
+
+plt.xlabel('driving frequencies')
+plt.ylabel('rms amp at that frequency')
+plt.plot(frequencies,rmsamplitude(frequencies,x0,z0,4,10,f0),color='k',label='w0=10 a=4')
+plt.plot(frequencies,rmsamplitude(frequencies,x0,z0,3.07,10,f0),color='r',label='w0=10 a=3.07')
+plt.plot(frequencies,rmsamplitude(frequencies,x0,z0,5,10,f0),color='b',label='w0=10 a=5')
+plt.title('resonence curve for two different resonant frequencies hw=0.056 ht=0.001')
 plt.grid()
+plt.legend()
 plt.show()
         
         
