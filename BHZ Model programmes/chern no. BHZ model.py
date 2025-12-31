@@ -46,10 +46,11 @@ plt.ylabel('Chern Number')
 plt.title('BHZ Model Variation of Chern No. (100X100 grid taken)')
 plt.plot(M,C)
 
-plt.show()
+plt.show()#completely wrong result. only sums up only diagonal plaquettes. Kx and Ky axis does not wrap around themselves
 
 #print(chernnoBHZ(300,2))
 
     
     
     
+
