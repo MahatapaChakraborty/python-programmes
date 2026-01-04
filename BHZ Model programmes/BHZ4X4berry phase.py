@@ -24,14 +24,14 @@ def eigenvectors(kx,ky,m):
     H21=np.sin(kx)+ (1j)* (np.sin(ky))
     H11=m + np.cos(kx) + np.cos(ky)
     H22=-H11
-    H13=1
+    H13=0
     H14=0
     H23=0
-    H24=1
-    H31=1
+    H24=0
+    H31=0
     H32=0
     H41=0
-    H42=1
+    H42=0
     H34=np.sin(kx)- (1j)* (np.sin(ky))
     H43=np.sin(kx)+ (1j)* (np.sin(ky))
     H33=m + np.cos(kx) + np.cos(ky)
@@ -89,5 +89,6 @@ ax.set_aspect('equal')
 
 cbar=plt.colorbar(collection,ax=ax)
 cbar.set_label("Berry phase value")
-ax.set_title("Berry phase over BZ for 4X4 BHZ model (with offdiagonal unit matrix(2X2)) (70X70 grid) m=0")
+ax.set_title("Berry phase over BZ for 4X4 BHZ model (70X70 grid) m=0")
 plt.show()
+
