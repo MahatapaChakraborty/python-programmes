@@ -51,5 +51,7 @@ plt.xlabel('m (100 points between +-5)')
 plt.ylabel('Chern Number')
 plt.title('BHZ Model Variation of Chern No. (25X25 grid taken)')
 plt.plot(M,C)
+plt.axhline(y=1,color='b',linestyle='--')
+plt.axhline(y=-1,color='b',linestyle='--')
 
 plt.show()
