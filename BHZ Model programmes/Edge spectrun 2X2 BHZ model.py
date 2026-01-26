@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 Nx=100# no. of sites in x-direction
 Nk=200# we will plot energies wrt ky this
      # is ky line reselution
-m=4
+m=1
 
 kypoints=np.linspace(0,2*np.pi,Nk)
 
@@ -16,8 +16,8 @@ H=np.zeros((2*Nx,2*Nx),dtype=complex)
 energies=np.zeros((Nk,2*Nx),dtype=complex)
 
 for i,ky in enumerate(kypoints):
-    H1=(m+2*np.cos(ky))*sigmaz - np.sin(ky)*sigmay
-    H2=sigmaz - 0.5j*sigmax
+    H1=(m+np.cos(ky))*sigmaz - np.sin(ky)*sigmay
+    H2=0.5*sigmaz - 0.5j*sigmax
 
     for x in range(Nx):
         H[2*x:2*x+2,2*x:2*x+2]=H1
@@ -39,7 +39,7 @@ for n in range(2*Nx):
 
 plt.xlabel("$K_y$")
 plt.ylabel("Energies")
-plt.title("Edge spectrum 2X2 BHZ model m=0")
+plt.title("Edge spectrum 2X2 BHZ model m=2")
 plt.show()
                                  
 
