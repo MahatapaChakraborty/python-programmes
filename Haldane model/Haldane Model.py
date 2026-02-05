@@ -171,7 +171,7 @@ plt.ylabel("Energy")
 plt.title("Haldane model: high-symmetry band structure t1=t2=1 M=1 phi=pi")
 plt.grid(alpha=0.3)
 
-plt.show()
+plt.show() # gives wrong result only summed over two next nearest neighbors and M point should be taken as (b1+b2)/2
 
 
 
@@ -181,3 +181,4 @@ plt.show()
     
     
         
+
