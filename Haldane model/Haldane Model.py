@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi,voronoi_plot_2d
 
 #lattice vectors
-a1=np.array([np.sqrt(3),0])
-a2=np.array([np.sqrt(3)/2,3/2])
+a1=np.array([1,0])
+a2=np.array([1/2,np.sqrt(3)/2])
 #reciprocal lattice vectors
-b1=np.array([2*np.pi/np.sqrt(3),-2*np.pi/3])
-b2=np.array([0,4*np.pi/3])
+b1=np.array([2*np.pi,-(2*np.pi)/np.sqrt(3)])
+b2=np.array([0,4*np.pi/np.sqrt(3)])
 #nearest neighbors
-n1=np.array([0.5,-1/(2*np.sqrt(3))])*np.sqrt(3)
-n2=np.array([0,1/np.sqrt(3)])*np.sqrt(3)
-n3=np.array([-0.5,-1/(2*np.sqrt(3))])*np.sqrt(3)
+n1=np.array([0.0,1/(np.sqrt(3))])
+n2=np.array([0.5,-1/(2*np.sqrt(3))])
+n3=np.array([-0.5,-1/(2*np.sqrt(3))])
 #next nearest neighbors
-nn1=n1-n3
-nn2=n2-n3
+nn1=n2-n3
+nn2=n3-n1
+nn3=n1-n2
 #print(n1)
 N=3
 M1=np.linspace(1,N,N)
@@ -29,15 +30,15 @@ vor=Voronoi(voronoiseeds)
 #fig=voronoi_plot_2d(vor)
 #plt.show()
 #print(vor.vertices)
-Nk=100
+Nk=200
 kxrange=np.linspace(np.min(vor.vertices[:,0]),np.max(vor.vertices[:,0]),Nk)
 kyrange=np.linspace(np.min(vor.vertices[:,1]),np.max(vor.vertices[:,1]),Nk)
 kx,ky=np.meshgrid(kxrange,kyrange)
 
 t1=1
 t2=1
-M=0#np.sqrt(3)
-phi=0#np.pi/2
+M=np.sqrt(3)*3
+phi=np.pi/2
 
 def energies(kx,ky,t1,t2,M,phi):
     unitmat=np.array([[1,0],[0,1]])
@@ -49,8 +50,9 @@ def energies(kx,ky,t1,t2,M,phi):
     kdotn3=kx*n3[0] + ky*n3[1]
     kdotnn1=kx*nn1[0] + ky*nn1[1]
     kdotnn2=kx*nn2[0] + ky*nn2[1]
-    coskdotnextnearestneigh=np.cos(kdotnn1)+np.cos(kdotnn2)
-    sinkdotnextnearestneigh=np.sin(kdotnn1)+np.sin(kdotnn2)
+    kdotnn3=kx*nn3[0] + ky*nn3[1]
+    coskdotnextnearestneigh=np.cos(kdotnn1)+np.cos(kdotnn2)+np.cos(kdotnn3)
+    sinkdotnextnearestneigh=np.sin(kdotnn1)+np.sin(kdotnn2)+np.sin(kdotnn3)
 
     coskdotnearestneigh=np.cos(kdotn1)+np.cos(kdotn2)+np.cos(kdotn3)
     sinkdotnearestneigh=np.sin(kdotn1)+np.sin(kdotn2)+np.sin(kdotn3)
@@ -79,32 +81,33 @@ for i in range(Nk):
     for j in range(Nk):
         upperenergies[i,j]=energies(kxrange[i],kyrange[j],t1,t2,M,phi)[1]
 
-#fig=plt.figure(figsize=(10,7))
-#ax=fig.add_subplot(111,projection='3d')
+'''fig=plt.figure(figsize=(10,7))
+ax=fig.add_subplot(111,projection='3d')
 
-#ax.plot_surface(kx,ky,lowerenergies,color='red')
-#ax.plot_surface(kx,ky,upperenergies,color='blue')
+ax.plot_surface(kx,ky,lowerenergies,color='red')
+ax.plot_surface(kx,ky,upperenergies,color='blue')
 
-#ax.set_title('2X2 Haldane model t1=t2=1 M=0 phi=0')
+ax.set_title('2X2 Haldane model t1=t2=1 M=3root3 phi=pi/2')
 #ax.set_zlim(-0.1,0.1)
-#ax.set_xlabel('Kx')
-#ax.set_ylabel('Ky')
-#ax.set_zlabel('Ek')
+ax.set_xlabel('Kx')
+ax.set_ylabel('Ky')
+ax.set_zlabel('Ek')
 
 
-#plt.show()
+plt.show()'''
 
-#plt.figure(figsize=(10,7))
-#plt.pcolormesh(kx,ky,(upperenergies-lowerenergies).real,shading='auto',cmap='coolwarm')#diff between 1st and second band
-#plt.colorbar(label="Difference between two bands")
-#plt.xlabel("k_x values")
-#plt.ylabel("k_y values")
-#plt.title("2X2 Haldane model energy difference t1=t2=1 M=0 phi=0")
-#plt.show()
+'''plt.figure(figsize=(10,7))
+plt.pcolormesh(kx,ky,(upperenergies-lowerenergies).real,shading='auto',cmap='coolwarm')#diff between 1st and second band
+plt.colorbar(label="Difference between two bands")
+plt.xlabel("k_x values")
+plt.ylabel("k_y values")
+plt.title("2X2 Haldane model energy difference t1=t2=1 M=3*(root3) phi=pi/2")
+plt.show()'''
 
-Gamma = np.array([0.0, 0.0])
+'''Gamma = np.array([0.0, 0.0])
 K = (2*b1 + b2) / 3
-Mpt = b1 / 2#high symmetry points
+Kp=(b1+2*b2)/3
+Mpt = (b1+b2) / 2#high symmetry points
 
 
 def k_path(points, n_per_segment=20):
@@ -112,7 +115,7 @@ def k_path(points, n_per_segment=20):
     tick_positions = [0]
     total_len = 0
 
-    for i in range(len(points)-1): #points is a list of 4 high symmetry points
+    for i in range(len(points)-1): #points is a list of 5 high symmetry points
         k_start = points[i]
         k_end = points[i+1]
 
@@ -121,7 +124,7 @@ def k_path(points, n_per_segment=20):
         klist.append(segment)
 
         total_len += len(segment)#counts total no. of 2D points
-        tick_positions.append(total_len)#tick position has 4 entries each
+        tick_positions.append(total_len)#tick position has 5 entries each
         #gives total no. of 2D points before a certain symmetry point
 
     klist.append(np.array([points[-1]]))# appends the gamma point at end of the
@@ -135,15 +138,15 @@ def k_path(points, n_per_segment=20):
 
 
 t1 = 1.0
-t2 = 1.0
-M = 1
-phi = np.pi    
+t2 = 0.1347
+M = 0.7
+phi = np.pi/2    
 
 
 # Generating energies along high symmetry path
 
 
-points = [Gamma, K, Mpt, Gamma]
+points = [Gamma, K, Mpt, Kp, Gamma]
 kpath, tick_positions = k_path(points, n_per_segment=200)
 #print(kpath)
 E1 = []#E1 and E2 are lists
@@ -166,12 +169,12 @@ plt.figure(figsize=(7,5))
 plt.plot(E1, 'k', lw=1.5)
 plt.plot(E2, 'k', lw=1.5)
 
-plt.xticks(tick_positions, [r'$\Gamma$', r'$K$', r'$M$', r'$\Gamma$'])
+plt.xticks(tick_positions, [r'$\Gamma$', r'$K$', r'$M$',r"$K'$" ,r'$\Gamma$'])
 plt.ylabel("Energy")
-plt.title("Haldane model: high-symmetry band structure t1=t2=1 M=1 phi=pi")
+plt.title("Haldane model: high-symmetry band structure t1=1,t2=0.1347 M=0.7 phi=pi/2")
 plt.grid(alpha=0.3)
 
-plt.show() # gives wrong result only summed over two next nearest neighbors and M point should be taken as (b1+b2)/2
+plt.show()'''
 
 
 
@@ -181,4 +184,3 @@ plt.show() # gives wrong result only summed over two next nearest neighbors and 
     
     
         
-
