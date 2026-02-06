@@ -74,12 +74,15 @@ def energies(kx,ky,t1,t2,M,phi):
 lowerenergies=np.zeros((Nk,Nk),dtype=complex)
 for i in range(Nk):
     for j in range(Nk):
-        lowerenergies[i,j]=energies(kxrange[i],kyrange[j],t1,t2,M,phi)[0]
+        lowerenergies[j,i]=energies(kxrange[i],kyrange[j],t1,t2,M,phi)[0]
+        # in python convention A[i,j] i is row index or in math convention the y co-ordinate
+#in python convention A[i,j] j is column index or in math convention the x co-ordinate
+#pcolormesh uses kx as x axis and ky as y axis 
 
 upperenergies=np.zeros((Nk,Nk),dtype=complex)
 for i in range(Nk):
     for j in range(Nk):
-        upperenergies[i,j]=energies(kxrange[i],kyrange[j],t1,t2,M,phi)[1]
+        upperenergies[j,i]=energies(kxrange[i],kyrange[j],t1,t2,M,phi)[1]
 
 '''fig=plt.figure(figsize=(10,7))
 ax=fig.add_subplot(111,projection='3d')
@@ -184,3 +187,4 @@ plt.show()'''
     
     
         
+
