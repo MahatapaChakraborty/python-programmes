@@ -134,7 +134,7 @@ def k_path(points, n_per_segment):
     return np.array(klist), np.array(totallength), tick_positions
 
 t1  = 1.0
-t2  = 0#0.1347
+t2  = -0.1347
 M   = 0.7
 phi = np.pi/2
 pointspersegment=50
@@ -170,7 +170,7 @@ plt.xticks(
 
 plt.xlabel("k-path length")
 plt.ylabel("Energy")
-plt.title("Haldane model band structure M=0.7 t2=0 phi=pi/2")
+plt.title("Haldane model band structure M=0.7 t2=-0.1347 phi=pi/2")
 plt.grid(alpha=0.3)
 
 plt.show()
