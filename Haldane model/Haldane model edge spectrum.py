@@ -74,6 +74,7 @@ plt.axvline(-2*np.pi/(3*np.sqrt(3)),color='k',linestyle='--')
 plt.title(f"Haldane Model Edge Spectrum (t1={t1},t2={t2},M={M},phi={phi:.2f})")
 plt.grid(True)
 plt.show()
+#this is wrong for tuple counting taken wrong
 
             
 
